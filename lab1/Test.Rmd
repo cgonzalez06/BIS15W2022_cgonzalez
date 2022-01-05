@@ -1,0 +1,33 @@
+---
+title: "Test"
+author: "Cristina Gonzalez"
+date: "1/4/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Let's try some math
+```{r}
+2+4
+```
+
+#Practice
+```{r}
+43/5
+```
+
+**Bold** 
+_Italics_ 
+
+```{r}
+#install.packages("tidyverse")
+library("tidyverse")
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl))) +
+    geom_bar()
+```
