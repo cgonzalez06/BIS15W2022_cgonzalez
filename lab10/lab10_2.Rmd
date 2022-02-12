@@ -161,7 +161,9 @@ penguins %>%
 ```{r}
 penguins %>% 
   na.omit() %>% 
-  ggplot(aes(x=island, fill=sex, ))+
+  ggplot(aes(x=island, fill=sex, ))+deserts %>% 
+  ggplot(aes(x=weight, y=hindfoot_length))+
+  geom_point()+
   geom_bar(position="dodge")
 ```
 
