@@ -139,6 +139,15 @@ gapminder %>%
   arrange(desc(pop_growth)) %>% 
   top_n(5)
 ```
+```{r}
+gapminder %>% 
+  pivot_wider(names_from = year,
+              values_from = pop) %>% 
+  select(country, "1952", "2007") %>% 
+  na.omit()
+  group_by(country) %>% 
+  summarize(pop_growth= )
+```
 
 **8. Use your results from the question above to plot population growth for the top five countries since 1952.**
 ```{r}
