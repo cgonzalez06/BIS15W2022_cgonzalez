@@ -1,7 +1,7 @@
 ---
 title: "Lab 11 Homework"
 author: "Cristina Gonzalez"
-date: "2022-02-12"
+date: "2022-02-15"
 output:
   html_document: 
     theme: spacelab
@@ -132,8 +132,8 @@ gapminder %>%
 gapminder %>% 
   group_by(year) %>% 
   summarize(mean_life_exp=mean(life_exp)) %>% 
-  ggplot(aes(x=as.factor(year), y=mean_life_exp))+
-  geom_col(fill="darkseagreen4")+
+  ggplot(aes(x=year, y=mean_life_exp))+
+  geom_line()+
   labs(title="Life Expectancy Over Time",
        x="Year",
        y="Life Expectancy (Years)")
@@ -235,7 +235,7 @@ gapminder %>%
   geom_point()+
   scale_x_log10()+
   labs(title="Per Capita GDP vs. Life Expectancy",
-       x="GDP Per Capita",
+       x="GDP Per Capita (log 10)",
        y="Life Expectancy")
 ```
 
@@ -245,25 +245,30 @@ gapminder %>%
 
 ```r
 gapminder %>% 
-  group_by(country) %>% 
-  summarize(pop_growth=max(pop)-min(pop)) %>% 
-  arrange(desc(pop_growth)) %>% 
-  top_n(5)
+  select(country, year, pop) %>% 
+  filter(year==1952 | year==2007) %>%
+  pivot_wider(names_from = year,
+              names_prefix = "year_",
+              values_from = pop) %>% 
+  mutate(pop_growth=year_2007-year_1952) %>% 
+  arrange(desc(pop_growth))
 ```
 
 ```
-## Selecting by pop_growth
-```
-
-```
-## # A tibble: 5 × 2
-##   country       pop_growth
-##   <fct>              <int>
-## 1 China          762419569
-## 2 India          738396331
-## 3 United States  143586947
-## 4 Indonesia      141495000
-## 5 Brazil         133408087
+## # A tibble: 142 × 4
+##    country       year_1952  year_2007 pop_growth
+##    <fct>             <int>      <int>      <int>
+##  1 China         556263527 1318683096  762419569
+##  2 India         372000000 1110396331  738396331
+##  3 United States 157553000  301139947  143586947
+##  4 Indonesia      82052000  223547000  141495000
+##  5 Brazil         56602560  190010647  133408087
+##  6 Pakistan       41346560  169270617  127924057
+##  7 Bangladesh     46886859  150448339  103561480
+##  8 Nigeria        33119096  135031164  101912068
+##  9 Mexico         30144317  108700891   78556574
+## 10 Philippines    22438691   91077287   68638596
+## # … with 132 more rows
 ```
 
 **8. Use your results from the question above to plot population growth for the top five countries since 1952.**
@@ -272,9 +277,7 @@ gapminder %>%
 gapminder %>% 
   filter(country=="China" | country=="India" | country=="United States" | country=="Indonesia" | country=="Brazil") %>% 
   ggplot(aes(x=year, y=pop, color=country))+
-  geom_point()+
   geom_line()+
-  scale_y_log10()+
   labs(title="Population Growth by Country",
        x= "Year",
        y="Population Size")+
@@ -289,9 +292,7 @@ gapminder %>%
 gapminder %>% 
   filter(country=="China" | country=="India" | country=="United States" | country=="Indonesia" | country=="Brazil") %>% 
   ggplot(aes(x=year, y=gdp_percap, color=country))+
-  geom_point()+
   geom_line()+
-  scale_y_log10()+
   labs(title="Per Capita GDP Growth by Country",
        x= "Year",
        y="Per Capita GDP")+
@@ -302,6 +303,18 @@ gapminder %>%
 
 **10. Make one plot of your choice that uses faceting!**
 
+
+```r
+gapminder %>% 
+  filter(year==1952|year==2007) %>% 
+  ggplot(aes(x=as.factor(year), y=life_exp, fill=continent))+
+  geom_boxplot()+
+  facet_wrap(~continent)+
+  labs(x="Year (1952 vs 2007)",
+       y="Life Expectancy")
+```
+
+![](lab11_hw_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences. 
