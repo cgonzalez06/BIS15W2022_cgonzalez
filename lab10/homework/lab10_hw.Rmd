@@ -50,6 +50,7 @@ deserts %>%
   summarize(genera=n_distinct(genus),
             species=n_distinct(species))
 ```
+
 ```{r}
 deserts %>% 
   summarise(observations=n())
