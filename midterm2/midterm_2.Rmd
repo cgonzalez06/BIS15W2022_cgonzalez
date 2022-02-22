@@ -36,11 +36,11 @@ For this assignment, we are going to use data from  [gapminder](https://www.gapm
 population <- read.csv("data/population_total.csv") 
 ```
 
-```{r}
+```{r, results='hide'}
 names(population)
 ```
 
-```{r}
+```{r, results='hide'}
 glimpse(population)
 ```
 
@@ -50,11 +50,11 @@ glimpse(population)
 income_per_person <- read.csv("data/income_per_person_gdppercapita_ppp_inflation_adjusted.csv")
 ```
 
-```{r}
+```{r, results='hide'}
 names(income_per_person)
 ```
 
-```{r}
+```{r, results='hide'}
 glimpse(income_per_person)
 ```
 
@@ -63,11 +63,11 @@ glimpse(income_per_person)
 life_expectancy <- read.csv("data/life_expectancy_years.csv")
 ```
 
-```{r}
+```{r, results='hide'}
 names(life_expectancy)
 ```
 
-```{r}
+```{r, results='hide'}
 glimpse(life_expectancy)
 ```
 
