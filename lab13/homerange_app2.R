@@ -1,6 +1,5 @@
-library(shiny)
-library(tidyverse)
-library(shinydashboard)
+library("shiny")
+library("tidyverse")
 
 homerange <- readr::read_csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 
@@ -13,23 +12,17 @@ ui <- fluidPage(
     
     # define the sidebar with one input
     sidebarPanel(
-      selectInput("taxon", " Select Taxon of Interest:", 
-                  choices=unique(homerange$taxon)),
-      hr(),
-      helpText("Reference: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of animal space use. The American Naturalist 186(2):196-211.")
-    ),
+      selectInput("taxon", " Select Taxon of Interest:", choices=unique(homerange$taxon)), hr(),
+      helpText("Reference: Tamburello N, Cote IM, Dulvy NK (2015) Energy and the scaling of animal space use. The American Naturalist 186(2):196-211.")),
     
     # create a spot for the barplot
     mainPanel(
-      plotOutput("taxonPlot")  
-    )
-    
+      plotOutput("taxonPlot"))
   )
 )
 
 # define a server for the Shiny app
 server <- function(input, output, session) {
-  session$onSessionEnded(stopApp)
   
   # fill in the spot we created for a plot
   output$taxonPlot <- renderPlot({
@@ -37,7 +30,7 @@ server <- function(input, output, session) {
     homerange %>% 
       filter(taxon == input$taxon) %>% 
       ggplot(aes(x=log10.hra)) + 
-      geom_density(color="black", fill="steelblue", alpha=0.6)
+      geom_density(color="black", fill="red", alpha=0.6)
   })
 }
 
