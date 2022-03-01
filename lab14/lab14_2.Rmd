@@ -23,7 +23,7 @@ library(tidyverse)
 #install.packages("ggVennDiagram")
 library(ggVennDiagram)
 library(RColorBrewer)
-#install.packages("ggworldcloud")
+#install.packages("ggwordcloud")
 library(ggwordcloud)
 ```
 
@@ -107,7 +107,10 @@ homerange%>%
 
 what is the flying non-bird?
 ```{r}
-
+homerange %>% 
+  filter(locomotion == "flying") %>% 
+  filter(taxon != "birds") %>% 
+  select(common.name)
 ```
 
 
@@ -165,7 +168,7 @@ Try making a 4 circle Venn diagram to show the intersection of:
 - swimming
 - carnivores
 - aquatic
-- endotherms
+- ectotherms
 
 You can use locomotion, trophic guild, realm, and thermoregulation. 
 
@@ -194,9 +197,10 @@ ecto_vec<- homerange %>%
 ```{r}
 
 # Make the list of vectors:
-
+loco_troph_realm_thermo <-list(swimming_vec, carni_vec, aqua_vec, ecto_vec)
 
 # Make the plot:
+ggVennDiagram(loco_troph_realm_thermo, category.names = c("Swimming", "Carnivores", "Aquatic", "Ectotherms"))
 ```
 
 
@@ -207,7 +211,12 @@ Use dplyr to determine which 20 animals from this plot are:
 - NOT Carnivores?
 
 ```{r}
-
+homerange %>% 
+  filter(thermoregulation=="ectotherm") %>% 
+  filter(realm=="aquatic") %>% 
+  filter(locomotion=="swimming") %>% 
+  filter(trophic.guild!="carnivore") %>% 
+  select(common.name)
 ```
 
 
@@ -248,11 +257,21 @@ If they dont fit, try tinkering the `scale_size_area(max_size =   )`
 
 make the count table:
 ```{r}
-
+reptilia_class_count <- homerange %>% 
+  filter(class=="reptilia") %>% 
+  count(family)
+reptilia_class_count
 ```
 
 
 make the plot:
 ```{r}
-
+reptilia_class_count %>% 
+  ggplot(aes(
+    label = family,
+    size = n,
+    color = family))+
+  geom_text_wordcloud() +
+  scale_size_area(max_size = 20) +
+  theme_minimal()
 ```
